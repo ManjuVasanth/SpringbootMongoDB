@@ -1,6 +1,8 @@
 package com.manju.books_store.controller;
 
 import com.manju.books_store.dto.BookDto;
+import com.manju.books_store.entity.Book;
+import com.manju.books_store.response.ResponseHandler;
 import com.manju.books_store.service.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/book-store")
@@ -19,10 +22,15 @@ public class BookStoreController {
     }
 
     @GetMapping("/{bookId}")
-    public ResponseEntity<BookDto> getBook(@PathVariable String bookId) {
+    public ResponseEntity<Object> getBook(@PathVariable String bookId) {
         BookDto bookDto = bookService.getBook(bookId);
-        return new ResponseEntity<>(bookDto, HttpStatus.OK);
+        if (bookDto != null) {
+            return ResponseHandler.responseBuilder("Book found", HttpStatus.OK, bookDto);
+        } else {
+            return ResponseHandler.responseBuilder("Book not found", HttpStatus.NOT_FOUND, null);
+        }
     }
+
 
     @GetMapping("/")
     public ResponseEntity<List<BookDto>> getAllBooks() {
