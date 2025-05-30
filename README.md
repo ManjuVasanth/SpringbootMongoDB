@@ -1,2 +1,2 @@
 # SpringbootMongoDB
-Springboot MongoDB project
+BookStore Management System - using Spring Boot & MongoDB
